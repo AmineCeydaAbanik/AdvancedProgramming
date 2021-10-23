@@ -1,54 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-    <link rel="icon" href="images/homeicon.png"> 
-    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" sizes="192x192" href="/JS/images/JS.png">
+    <title>Make a Table </title>
 
-    <script>navigator.serviceWorker.register('sw.js')</script>
-    <style>
-        html {
-            margin: auto;
-        } 
-        * { 
-            background-color:  #FDF8E8;
-            font-family: Trebuchet MS;
-            text-align: center;
-            max-width: 400px; 
-        }
-        h1,h2,h3 {
-            color: #942C10;
-            background-color: #F8CD42;
-        }
-        span{
-            font-weight: lighter;
-            font-size: 15px;
-        }
-        li{
-            font-size: 20px;
-            line-height: 200%;
-        }
-        a,p {
-            color:black;
-            font-size: 20px;
-            line-height: 200%;
-        }
-        select {
-            color:black;
-            appearance: none;       
-            border: none;
-        }
-    </style>
+  <style>
+    body { max-width: 440px; }
+    #sample { overflow-x: auto; }
+    table { border-collapse: collapse; }
+    th { color: blue; padding: 5px 5px; }
+    td { 
+        border: 1px solid blue; 
+        padding: 5px 5px; 
+        text-align: center; 
+        position: relative;
+    }
+    td:hover .tip {
+        visibility: visible;
+    }
+    td .tip {
+        visibility: hidden;
+        font-size: small;
+        background-color: blue;
+        color: white;
+        text-align: center;
+        padding: 5px 5px;
+        position: absolute;
+        left: 5px; 
+        top: 20px;
+    }
+  </style>
 </head>
-<body>
-    <h1>Advanced Programming Techniques</span></h1>
-    
-    <a href=https://github.com/AmineCeydaAbanik/AdvancedProgramming>Repository</a>
 
+<body>
+<h2 id=title></h2>
+
+<table id="tablo"></table>
+
+<p id=out style="font-size:small"></p>
+
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+<hr />
+
+<a href="hw1-ss.PNG" 
+    target="NewTab">Screen Shot</a>
+
+<script>
+"use strict";
+
+function Homework1(){
+    const L = [0.5, 1, 1.5, 2, 2.5, 3];
+    let x = 1;
+    const p = [];
+    for (let λ of L) {
+        p.push((Math.exp(-λ)));
+    }
+    let row = "<th></th>";
+    for (let j = 0.5; j <= 3; j += 0.5){ 
+        row += "<th> λ = "+j+"</th>";
+    }
+    let text = "<tr>"+row+"</tr>";
+    for (let i = 0; i <= 8; i++){
+        row = "<th> x = "+i+"</th>";
+        for(let j = 0; j < p.length; j++){
+            row += "<td>"+p[j].toFixed(4)+"</td>"; 
+            p[j] = parseFloat(((p[j]*L[j])/x));
+        }
+        x++;
+        text += "<tr>"+row+"</tr>";
+    }
+    tablo.innerHTML = text; 
+    title.innerText = "Poisson Probabilities";
+    sample.innerText = Homework1.toString();
+}
+
+Homework1();
     
-    <span>Amine Ceyda Abanik</span>
-    
+</script>
+
 </body>
-</html>
+</html> 
