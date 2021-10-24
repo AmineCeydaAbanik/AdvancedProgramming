@@ -7,11 +7,30 @@
     <title>Make a Table </title>
 
   <style>
-    
-    body { max-width: 640px; }
-    pre  { overflow-x: auto; }
-    input { width: 800px }
-  
+    body { max-width: 800px; }
+    #sample { overflow-x: auto; }
+    table { border-collapse: collapse; }
+    th { color: blue; padding: 5px 5px; }
+    td { 
+        border: 1px solid blue; 
+        padding: 5px 5px; 
+        text-align: center; 
+        position: relative;
+    }
+    td:hover .tip {
+        visibility: visible;
+    }
+    td .tip {
+        visibility: hidden;
+        font-size: small;
+        background-color: blue;
+        color: white;
+        text-align: center;
+        padding: 5px 5px;
+        position: absolute;
+        left: 5px; 
+        top: 20px;
+    }
   </style>
 </head>
 
@@ -19,7 +38,7 @@
 <h2 id=title>Ki-Kare Tekniği</h2>
 
 <pre id="out"> 
-   a=0.995   a=0.91   a=0.925   a=0.95   a=0.90   a=0.10   a=0.05  a=0.025 a=0.01  a=0.005
+   a=0.995  a=0.91  a=0.925 a=0.95  a=0.90  a=0.10  a=0.05  a=0.025 a=0.01  a=0.005
 <br>
 g=0  0.00    0.00    0.00    0.00    0.02    2.71    3.84    5.02    6.63    7.88
 <br>
