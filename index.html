@@ -17,6 +17,12 @@
 
 <body>
 <h2 id=title>Ki-Kare Tekniği</h2>
+    "g = "
+    <input type="number" id="ex" value="1" onchange="calculate()">
+    "a = "
+    <input type="number" id="lam" value="0.01" onchange="calculate()">
+    <span id="res">P(g, a) = 6.63</span>
+    
 
 <pre id="out"> 
    a=0.995  a=0.91  a=0.925 a=0.95  a=0.90  a=0.10  a=0.05  a=0.025 a=0.01  a=0.005
@@ -40,6 +46,44 @@ g=8  1.34   1.65    2.18    2.73    3.49    13.36   15.51   17.53   20.09   21.9
 </pre>
 <hr>
     <b>Sample code</b>
-
+<hr>
+    <p>
+        Ref: 
+        <a href="https://endustriciyiz.blogspot.com/2013/07/ki-kare-teknigi.html" target="NewTab">Ki Kare Tekniği</a>
+</p>
+    <script>
+"use strict";
+function poisson(x, λ, f=4) {
+    let p = Math.exp(-λ)
+    for (let k=1; k<=x; k++) p = p*λ/k
+    return p.toFixed(f)
+}
+function calculate() {
+    let x = Number(ex.value)
+    if (!Number.isInteger(x)) {
+       x = Math.round(x); ex.value = x
+    }
+    let λ = Number(lam.value)
+    res.innerText = "P(x, λ) = "+poisson(x, λ)
+}
+function doTable() {
+    const L = [0.5, 1, 1.5, 2, 2.5, 3]
+    let a = L.map((λ) => 'λ='+λ)
+    let str = header(a)
+    for (let x=0; x<=8; x++) { 
+       let a = L.map((λ) => poisson(x, λ))
+       str += oneLine(a, x)
+    }
+    return str
+}
+let header  = (a) => '      '+ a.join('   ')  //pre
+let oneLine = (a, x) => '\nx='+x+'  '+ a.join(' ')
+    
+    title.innerText = document.title
+    sample.innerText = poisson+'\n'+doTable
+    calculate()
+    out.innerText = doTable()
+</script>
 </body>
+    
 </html> 
