@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    
+    <title>Chi-Square Olasılık Tablosu </title>
+
+  <style>
+    
+    body { max-width: 800px; }
+    pre  { overflow-x: auto; }
+    input { width: 50px }
+  
+  </style>
+</head>
+
+<body>
+<h2 id=title>Chi-Square(χ2)</h2>
+   
+<pre id="out"> 
+   a=0.995 a=0.91  a=0.925 a=0.95  a=0.90  a=0.10  a=0.05  a=0.025 a=0.01  a=0.005
+<br>
+g=1  0.00   0.00    0.00    0.00    0.02    2.71    3.84    5.02    6.63    7.88
+<br>
+g=2  0.01   0.02    0.05    0.10    0.21    4.61    5.99    7.38    9.21    10.60
+<br>
+g=3  0.07   0.11    0.22    0.35    0.58    6.25    7.81    9.35    11.34   12.84
+<br>
+g=4  0.21   0.30    0.48    0.71    1.06    7.78    9.49    11.14   13.28   14.86
+<br>
+g=5  0.41   0.55    0.83    1.15    1.61    9.24    11.07   12.83   15.09   16.75
+<br>
+g=6  0.68   0.87    1.24    1.64    2.20    10.64   12.59   14.45   16.81   18.55
+<br>
+g=7  0.99   1.24    1.69    2.17    2.83    12.02   14.07   16.01   18.48   20.28
+<br>
+g=8  1.34   1.65    2.18    2.73    3.49    13.36   15.51   17.53   20.09   21.95
+
+</pre>
+<hr>
+    <b>AÇIKLAMALAR</b>
+ <br>
+    a=olasılık değeri
+ <br>
+    g=serbestlik derecesi(sd)(df)
+<hr>
+    <p>
+        Ref: 
+        <a href="https://endustriciyiz.blogspot.com/2013/07/ki-kare-teknigi.html" target="NewTab">Ki Kare Tekniği</a>
+</p>
+    
+<script language="JavaScript">
+
+function LogGamma(Z) {
+	with (Math) {
+		var S=1+76.18009173/Z-86.50532033/(Z+1)+24.01409822/(Z+2)-1.231739516/(Z+3)+.00120858003/(Z+4)-.00000536382/(Z+5);
+		var LG= (Z-.5)*log(Z+4.5)-(Z+4.5)+log(S*2.50662827465);
+	}
+	return LG
+}
+
+function Gcf(X,A) {        // Good for X>A+1
+	with (Math) {
+		var A0=0;
+		var B0=1;
+		var A1=1;
+		var B1=X;
+		var AOLD=0;
+		var N=0;
+		while (abs((A1-AOLD)/A1)>.00001) {
+			AOLD=A1;
+			N=N+1;
+			A0=A1+(N-A)*A0;
+			B0=B1+(N-A)*B0;
+			A1=X*A0+N*A1;
+			B1=X*B0+N*B1;
+			A0=A0/B1;
+			B0=B0/B1;
+			A1=A1/B1;
+			B1=1;
+		}
+		var Prob=exp(A*log(X)-X-LogGamma(A))*A1;
+	}
+	return 1-Prob
+}
+
+function Gser(X,A) {        // Good for X<A+1.
+    with (Math) {
+		var T9=1/A;
+		var G=T9;
+		var I=1;
+		while (T9>G*.00001) {
+			T9=T9*X/(A+I);
+			G=G+T9;
+			I=I+1;
+		}
+		G=G*exp(A*log(X)-X-LogGamma(A));
+    }
+    return G
+}
+
+function Gammacdf(x,a) {
+	var GI;
+	if (x<=0) {
+		GI=0
+	} else if (x<a+1) {
+		GI=Gser(x,a)
+	} else {
+		GI=Gcf(x,a)
+	}
+	return GI
+}
+
+function compute(form) {
+    Z=eval(form.argument.value)
+    DF=eval(form.df.value)
+	if (DF<=0) {
+		alert("Degrees of freedom must be positive")
+	} else {
+		Chisqcdf=Gammacdf(Z/2,DF/2)
+	}
+	Chisqcdf=Math.round(Chisqcdf*100000)/100000;
+    form.result.value = Chisqcdf;
+}
+AÇIKLAMALAR.innerText = compute+'\n'
+</script>
+
+</body>
+    
+</html> 
